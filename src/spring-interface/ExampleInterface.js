@@ -19,21 +19,29 @@ export default function ExampleInterface() {
 
     const onSubmit = () => {
         console.log(nameValues["PersonName"])
-        axios.get('')
-            .then()
-            .catch()
-            .then()
-
-        axios.post("/", {})
+        axios.post("http://localhost:8080/arpaCloud/sql", {
+            companyName: nameValues['companyName'],
+            customerCode: nameValues['customerCode'],
+            appName: nameValues['appName'],
+            appSecret: nameValues['appSecret']
+        }).then(function (response) {
+            console.log(response.data)
+        })
     }
 
     return (
         <Form>
             <Form.Field>
-                <CustomerField name={"PersonName"} onChange={onChange}/>
+                <CustomerField name={"companyName"} onChange={onChange}/>
             </Form.Field>
             <Form.Field>
-                <CustomerField name={"PersonSex"} onChange={onChange}/>
+                <CustomerField name={"customerCode"} onChange={onChange}/>
+            </Form.Field>
+            <Form.Field>
+                <CustomerField name={"appName"} onChange={onChange}/>
+            </Form.Field>
+            <Form.Field>
+                <CustomerField name={"appSecret"} onChange={onChange}/>
             </Form.Field>
             <Button type={"submit"} onClick={onSubmit}>Submit</Button>
         </Form>
