@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Button, Form} from "semantic-ui-react";
 import axios from "axios"
 
 export default function ExampleInterface() {
@@ -30,21 +29,14 @@ export default function ExampleInterface() {
     }
 
     return (
-        <Form>
-            <Form.Field>
-                <CustomerField name={"companyName"} onChange={onChange}/>
-            </Form.Field>
-            <Form.Field>
-                <CustomerField name={"customerCode"} onChange={onChange}/>
-            </Form.Field>
-            <Form.Field>
-                <CustomerField name={"appName"} onChange={onChange}/>
-            </Form.Field>
-            <Form.Field>
-                <CustomerField name={"appSecret"} onChange={onChange}/>
-            </Form.Field>
-            <Button type={"submit"} onClick={onSubmit}>Submit</Button>
-        </Form>
+        <div>
+            <CustomerField name={"companyName"} onChange={onChange}/>
+            <CustomerField name={"customerCode"} onChange={onChange}/>
+            <CustomerField name={"appName"} onChange={onChange}/>
+            <CustomerField name={"appSecret"} onChange={onChange}/>
+
+            <button type={"submit"} onClick={onSubmit}>Submit</button>
+        </div>
     )
 }
 
@@ -52,7 +44,7 @@ const CustomerField = (props) => {
     const [value, setValue] = useState("")
 
     return (
-        <Form.Field>
+        <div>
             <label>{props.name}</label>
             <input placeholder={"Please enter " + props.name}
                    onChange={(e) => {
@@ -61,6 +53,6 @@ const CustomerField = (props) => {
                    }}
                    value={value}
             />
-        </Form.Field>
+        </div>
     )
 }

@@ -1,17 +1,15 @@
 import React from 'react';
 import './App.css';
-import "semantic-ui-css/semantic.min.css"
-import {Tab} from "semantic-ui-react";
-import ExampleInterface from "./spring-interface/ExampleInterface";
+import 'antd/dist/antd.css'
+import {Layout, Menu, Breadcrumb} from "antd";
+
+const {Header, Content, Footer} = Layout;
 
 function App() {
-    const panes = [
-        {menuItem: "Interface Test", render: () => <Tab.Pane><ExampleInterface/></Tab.Pane>}
-    ]
 
     return (
         <div>
-            <Tab panes={panes}/>
+            HelloWorld!
         </div>
     );
 }
