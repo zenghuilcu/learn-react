@@ -8635,6 +8635,16 @@ pretty-format@^25.1.0, pretty-format@^25.5.0:
     ansi-styles "^4.0.0"
     react-is "^16.12.0"
 
+primeicons@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/primeicons/download/primeicons-4.0.0.tgz#a3594b3af213dcf8c4c3d6fc99eea05b7c92f57c"
+  integrity sha1-o1lLOvIT3PjEw9b8me6gW3yS9Xw=
+
+primereact@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.npm.taobao.org/primereact/download/primereact-4.2.2.tgz#9671cdf62f782712359b8acb10570c16da5cfdc2"
+  integrity sha1-lnHN9i94JxI1m4rLEFcMFtpc/cI=
+
 process-nextick-args@~2.0.0:
   version "2.0.1"
   resolved "https://registry.npm.taobao.org/process-nextick-args/download/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
