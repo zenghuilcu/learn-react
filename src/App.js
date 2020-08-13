@@ -7,6 +7,8 @@ import {Alignment, InputGroup, Navbar, Tab, Tabs} from "@blueprintjs/core";
 import {DataTableExample} from "./primereact/DataTable";
 import PlainTextEditorExample from "./editor/plaintext";
 import ColorfulEditorExample from "./editor/Color";
+import TweetEditorExample from "./editor/Tweet";
+import {ShowEditor} from "./editor/EditorGroup";
 
 function App() {
     const [navbarTabId, setNavbarTagId] = useState("Home")
@@ -34,7 +36,7 @@ function App() {
                 </Navbar.Group>
             </Navbar>
             <Tabs>
-                <Tab id={"rx"} title={"React"} panel={<div>React</div>}/>
+                <Tab id={"rx"} title={"React"} panel={<ShowEditor/>}/>
                 <Tab id={"ng"} title={"Angular"} panel={<DataTableExample/>}/>
                 <Tab id={"mb"} title={"Ember"} panel={<PlainTextEditorExample/>}/>
                 <Tab id={"bb"} title={"Baby Boy"} panel={<ColorfulEditorExample/>}/>
