@@ -5,9 +5,9 @@ import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import {Alignment, InputGroup, Navbar, Tab, Tabs} from "@blueprintjs/core";
 import {DataTableExample} from "./primereact/DataTable";
-import PlainTextEditorExample from "./editor/plaintext";
-import ColorfulEditorExample from "./editor/Color";
-import TweetEditorExample from "./editor/Tweet";
+import PlainTextEditorExample from "./editor/example/plaintext";
+import ColorfulEditorExample from "./editor/example/Color";
+import TweetEditorExample from "./editor/example/Tweet";
 import {ShowEditor} from "./editor/EditorGroup";
 
 function App() {
