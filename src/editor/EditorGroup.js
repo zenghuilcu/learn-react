@@ -12,6 +12,7 @@ export const ShowEditor = () => {
     let editors = [<ColorfulEditorExample/>, <HTMLConvertExample/>, <EntityEditorExample/>, <IframedEditorExample/>,
         <LinkEditorExample/>, <PlainTextEditorExample/>, <RichEditorExample/>, <TweetEditorExample/>]
     const [value, setValue] = useState(0);
+    let result = [];
     return (
         <div>
             <input value={value} onChange={(event) => {
@@ -19,7 +20,7 @@ export const ShowEditor = () => {
                 setValue(event.target.value)
             }}/>
             <div>
-                <ShowText text={value}/>
+                <ShowText text={value} result={result}/>
             </div>
             <div>
                 {editors[value]}
@@ -28,20 +29,20 @@ export const ShowEditor = () => {
     )
 }
 
-const ShowText = (text) => {
+const ShowText = (props) => {
     let editorsStr = ["ColorfulEditor", "HTMLConvert", "EntityEditor", "Iframed", "LinkEditor", "PlainTest", "RichEditor", "Tweet"]
-    console.log(text)
 
-    let result = []
     editorsStr.forEach((value => {
-        if (value.indexOf(text) !== -1) {
-            result.push(value)
+        if (value === "") {
+            return [];
+        }
+        if (value.indexOf(props.text) !== -1) {
+            props.result.push(value)
         }
     }))
-    console.log("Result: " + result)
     return (
         <div>
-            {result}
+            {props.result}
         </div>
     )
 }
