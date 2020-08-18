@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Select} from "@blueprintjs/select"
 import ColorfulEditorExample from "./example/Color";
 import HTMLConvertExample from "./example/ConvertFromHtml";
 import EntityEditorExample from "./example/Entity";
@@ -45,4 +46,11 @@ const ShowText = (props) => {
             {props.result}
         </div>
     )
+}
+
+const ItemSelect = Select.ofType();
+
+const SelectComponent = () => {
+    return <div>
+    </div>
 }

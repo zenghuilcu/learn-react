@@ -3,11 +3,11 @@ import './App.css';
 import 'primereact/resources/themes/nova-dark/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
+import 'semantic-ui-css/semantic.min.css'
 import {Alignment, InputGroup, Navbar, Tab, Tabs} from "@blueprintjs/core";
 import {DataTableExample} from "./primereact/DataTable";
 import PlainTextEditorExample from "./editor/example/plaintext";
 import ColorfulEditorExample from "./editor/example/Color";
-import TweetEditorExample from "./editor/example/Tweet";
 import {ShowEditor} from "./editor/EditorGroup";
 
 function App() {
