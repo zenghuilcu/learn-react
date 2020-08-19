@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Select} from "@blueprintjs/select"
 import ColorfulEditorExample from "./example/Color";
 import HTMLConvertExample from "./example/ConvertFromHtml";
 import EntityEditorExample from "./example/Entity";
@@ -8,21 +7,21 @@ import LinkEditorExample from "./example/link";
 import PlainTextEditorExample from "./example/plaintext";
 import RichEditorExample from "./example/rich";
 import TweetEditorExample from "./example/Tweet";
+import {Dropdown} from "primereact/dropdown";
 
 export const ShowEditor = () => {
     let editors = [<ColorfulEditorExample/>, <HTMLConvertExample/>, <EntityEditorExample/>, <IframedEditorExample/>,
         <LinkEditorExample/>, <PlainTextEditorExample/>, <RichEditorExample/>, <TweetEditorExample/>]
+
     const [value, setValue] = useState(0);
-    let result = [];
+
+    const selectOnChange = (value) => {
+        setValue(value)
+    }
+
     return (
         <div>
-            <input value={value} onChange={(event) => {
-                console.log(event.target.value)
-                setValue(event.target.value)
-            }}/>
-            <div>
-                <ShowText text={value} result={result}/>
-            </div>
+            <SelectComponent onChange={selectOnChange}/>
             <div>
                 {editors[value]}
             </div>
@@ -30,27 +29,23 @@ export const ShowEditor = () => {
     )
 }
 
-const ShowText = (props) => {
-    let editorsStr = ["ColorfulEditor", "HTMLConvert", "EntityEditor", "Iframed", "LinkEditor", "PlainTest", "RichEditor", "Tweet"]
+const componentOptions = [
+    {value: "0", label: "ColorfulEditor"},
+    {value: "1", label: "HTMLConvert"},
+    {value: "2", label: "EntityEditor"},
+    {value: "3", label: "Iframed"},
+    {value: "4", label: "LinkEditor"},
+    {value: "5", label: "PlainTest"},
+    {value: "6", label: "RichEditor"},
+    {value: "7", label: "Tweet"}
+]
 
-    editorsStr.forEach((value => {
-        if (value === "") {
-            return [];
-        }
-        if (value.indexOf(props.text) !== -1) {
-            props.result.push(value)
-        }
-    }))
-    return (
-        <div>
-            {props.result}
-        </div>
-    )
-}
-
-const ItemSelect = Select.ofType();
-
-const SelectComponent = () => {
+const SelectComponent = (props) => {
+    const [value, setValue] = useState("")
     return <div>
-    </div>
+        <Dropdown value={value} options={componentOptions} onChange={(e) => {
+            setValue(e.value)
+            props.onChange(e.value)
+        }} placeholder={"Select something..."}/>
+    </div>;
 }
