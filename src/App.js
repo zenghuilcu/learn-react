@@ -9,6 +9,7 @@ import {DataTableExample} from "./primereact/DataTable";
 import PlainTextEditorExample from "./editor/example/plaintext";
 import ColorfulEditorExample from "./editor/example/Color";
 import {ShowEditor} from "./editor/EditorGroup";
+import {AppFooter} from "./AppFooter";
 
 function App() {
     const [navbarTabId, setNavbarTagId] = useState("Home")
@@ -43,6 +44,7 @@ function App() {
                 <Tabs.Expander/>
                 <InputGroup type={"text"} placeholder={"Search..."}/>
             </Tabs>
+            <AppFooter/>
         </div>
     );
 }
