@@ -11,6 +11,7 @@ import PlainTextEditorExample from "./editor/example/plaintext";
 import ColorfulEditorExample from "./editor/example/Color";
 import {ShowEditor} from "./editor/EditorGroup";
 import {MyExampleEditor} from "./editor/MyEditor";
+import {AppFooter} from "./AppFooter";
 
 function App() {
     const [navbarTabId, setNavbarTagId] = useState("Home")
@@ -46,6 +47,7 @@ function App() {
                 <Tabs.Expander/>
                 <InputGroup type={"text"} placeholder={"Search..."}/>
             </Tabs>
+            <AppFooter/>
         </div>
     );
 }
