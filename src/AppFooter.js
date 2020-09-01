@@ -2,9 +2,13 @@ import React from "react";
 
 export const AppFooter = () => {
     return (
-        <div>
-            <span>PrimeReact</span>
-            <span>Theme and Layout</span>
+        <div className="layout-footer">
+            <span className="footer-text" style={{"marginRight": "5px"}}>
+                PrimeReact
+            </span>
+            <span className="footer-text" style={{"marginLeft": "5px"}}>
+                Theme and Layout
+            </span>
         </div>
     )
 }
