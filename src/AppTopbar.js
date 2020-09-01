@@ -1,10 +1,10 @@
 import React from "react";
 import {InputText} from "primereact/inputtext";
 
-export const AppTopbar = () => {
+export const AppTopbar = (props) => {
     return (
         <div className="layout-topbar clearfix">
-            <button className="p-link layout-menu-button">
+            <button className="p-link layout-menu-button" onClick={props.onToggleMenu}>
                 <span className="pi pi-bars"/>
             </button>
             <div className="layout-topbar-icons">
