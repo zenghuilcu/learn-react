@@ -16,6 +16,10 @@ import {AppFooter} from "./AppFooter";
 import {AppTopbar} from "./AppTopbar";
 import {AppProfile} from "./AppProfile";
 import {AppMenu} from "./AppMenu";
+import {EmptyPage} from "./my-site/EmptyPage";
+import {DashBoard} from "./my-site/DashBoard";
+import {WebSocketPage} from "./my-site/WebSocketPage";
+import {WorkPage} from "./my-site/WorkPage";
 
 class App extends Component {
     constructor(props) {
@@ -88,6 +92,15 @@ class App extends Component {
                 label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => {
                     window.location = '#/'
                 }
+            },
+            {
+                label: 'TestPage', icon: 'pi pi-fw pi-file', to: "/TestPage"
+            },
+            {
+                label: 'WebSocket', icon: 'pi pi-fw pi-share-alt', to: "/WebSocket"
+            },
+            {
+                label: "WorkPage", icon: 'pi pi-fw pi-briefcase', to: "/WorkPage"
             }
         ];
     }
@@ -142,7 +155,10 @@ class App extends Component {
                 </div>
 
                 <div className="layout-main">
-                    <Route path="/" exact component={ColorfulEditorExample}/>
+                    <Route path="/" exact component={DashBoard}/>
+                    <Route path="/TestPage" exact component={EmptyPage}/>
+                    <Route path="/WebSocket" exact component={WebSocketPage}/>
+                    <Route path="/WorkPage" exact component={WorkPage}/>
                 </div>
 
                 <AppFooter/>
