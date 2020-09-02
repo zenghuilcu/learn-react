@@ -1,45 +1,23 @@
-import React, {Component, useState} from "react";
-import {Editor, createEditorState} from "medium-draft"
+import React, {useState} from "react";
+import {InputTextarea} from "primereact/inputtextarea";
+import {Button} from "primereact/button";
 
-export class WorkPage extends Component {
-    constructor(props) {
-        super(props);
+export const WorkPage = () => {
+    const [value, setValue] = useState("")
 
-        this.state = {
-            editorState: createEditorState(), // for empty content
-        };
-
-        /*
-        this.state = {
-          editorState: createEditorState(data), // with content
-        };
-        */
-
-        this.onChange = (editorState) => {
-            this.setState({editorState});
-        };
-
-        this.refsEditor = React.createRef();
-
-    }
-
-    componentDidMount() {
-        this.refsEditor.current.focus();
-    }
-
-    render() {
-        const {editorState} = this.state;
-        return (
-            <Editor
-                ref={this.refsEditor}
-                editorState={editorState}
-                onChange={this.onChange}/>
-        );
-    }
-}
-
-const EditorArea = () => {
     return (
-        <div>EditorArea</div>
+        <div className="p-grid p-dir-col">
+            <InputTextarea
+                className="p-col-4"
+                rows={5}
+                cols={40}
+                onChange={(e) => {
+                    setValue(e.target.value)
+                }}
+            />
+            <div className="p-col-1">
+                <Button  label={"Submit"}/>
+            </div>
+        </div>
     )
 }

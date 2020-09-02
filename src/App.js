@@ -9,6 +9,7 @@ import 'primeflex/primeflex.css'
 import 'semantic-ui-css/semantic.min.css'
 import 'medium-draft/lib/index.css'
 import './layout/layout.scss'
+import './my-site/WorkPage.css'
 import ColorfulEditorExample from "./editor/example/Color";
 import {ShowEditor} from "./editor/EditorGroup";
 import {MyExampleEditor} from "./editor/MyEditor";
@@ -162,7 +163,6 @@ class App extends Component {
                 </div>
 
                 <AppFooter/>
-
                 <div className="layout-mask"/>
             </div>
         );
