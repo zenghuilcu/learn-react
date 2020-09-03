@@ -9,7 +9,7 @@ import 'primeflex/primeflex.css'
 import 'semantic-ui-css/semantic.min.css'
 import 'medium-draft/lib/index.css'
 import './layout/layout.scss'
-import './my-site/WorkPage.css'
+import './my-site/MySite.css'
 import ColorfulEditorExample from "./editor/example/Color";
 import {ShowEditor} from "./editor/EditorGroup";
 import {MyExampleEditor} from "./editor/MyEditor";
