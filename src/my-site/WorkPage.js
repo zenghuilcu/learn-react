@@ -3,6 +3,7 @@ import {InputTextarea} from "primereact/inputtextarea";
 import {Button} from "primereact/button";
 import {Divider} from "@blueprintjs/core";
 import axios from "axios"
+import {ScrollPanel} from "primereact/scrollpanel";
 
 const insertUrl = "http://localhost:8282/item/insertOne";
 const findAllUrl = "http://localhost:8282/item/findAll";
@@ -33,12 +34,16 @@ export const WorkPage = () => {
         axios.get(findAllUrl).then(response => {
             setItems(response.data)
         })
-        console.log("HELLO")
     }, [update])
 
-    useEffect(() => {
-        console.log("update !!!!")
-    }, [update])
+    const itemList = items.map(((item, index, array) =>
+            <li key={index}>{index + " " + item.content}
+                <button value={item.id} onClick={event => {
+                    console.log(event.target.value)
+                }}>X
+                </button>
+            </li>
+    ))
 
     return (
         <div className="p-grid p-dir-col">
@@ -48,6 +53,11 @@ export const WorkPage = () => {
                         <div className="p-grid p-dir-col">
                             <div className="p-col">
                                 Today {items.length}
+                                <ScrollPanel style={{width: '100%', height: '350px'}}>
+                                    <ul>
+                                        {itemList}
+                                    </ul>
+                                </ScrollPanel>
                             </div>
                         </div>
                     </div>
