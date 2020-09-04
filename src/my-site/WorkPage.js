@@ -1,15 +1,20 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {InputTextarea} from "primereact/inputtextarea";
 import {Button} from "primereact/button";
 import {Divider} from "@blueprintjs/core";
 import axios from "axios"
 
+const insertUrl = "http://localhost:8282/item/insertOne";
+const findAllUrl = "http://localhost:8282/item/findAll";
+
+
 export const WorkPage = () => {
     const [value, setValue] = useState("")
+    const [items, setItems] = useState([])
 
     const submit = () => {
-        const uri = "http://localhost:8282/item/insertOne";
-        axios.post(uri, {
+        console.log(items)
+        axios.post(insertUrl, {
             content: value,
             createTime: Date.now()
         })
@@ -21,6 +26,16 @@ export const WorkPage = () => {
             })
     }
 
+    useEffect(() => {
+        axios.get(findAllUrl)
+            .then(response => {
+                setItems(items)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    },[])
+
     return (
         <div className="p-grid p-dir-col">
             <div className="p-col">
@@ -28,7 +43,7 @@ export const WorkPage = () => {
                     <div className="p-col-6 day-box">
                         <div className="p-grid p-dir-col">
                             <div className="p-col">
-                                Today
+                                Today {items.length}
                             </div>
                         </div>
                     </div>
