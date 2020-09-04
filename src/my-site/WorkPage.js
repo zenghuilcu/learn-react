@@ -7,13 +7,11 @@ import {ScrollPanel} from "primereact/scrollpanel";
 
 const insertUrl = "http://localhost:8282/item/insertOne";
 const findAllUrl = "http://localhost:8282/item/findAll";
-let i = 0
-
-
+const deleteByIdUrl = "http://localhost:8282/item/deleteById"
 export const WorkPage = () => {
     const [value, setValue] = useState("")
     const [items, setItems] = useState([])
-    const [update, setUpdate] = useState(0)
+    const [update, setUpdate] = useState(false)
 
     const submit = () => {
         axios.post(insertUrl, {
@@ -27,23 +25,33 @@ export const WorkPage = () => {
                 console.log(error)
             })
         setValue("")
-        setUpdate(prevState => prevState + 1)
+        updateEvent()
+    }
+
+    const updateEvent = () => {
+        console.log(update)
+        setUpdate(!update)
     }
 
     useEffect(() => {
-        axios.get(findAllUrl).then(response => {
-            setItems(response.data)
+        axios.get(findAllUrl).then(({data}) => {
+            setItems(() => {
+                return data
+            })
         })
     }, [update])
 
-    const itemList = items.map(((item, index, array) =>
-            <li key={index}>{index + " " + item.content}
-                <button value={item.id} onClick={event => {
-                    console.log(event.target.value)
-                }}>X
-                </button>
-            </li>
-    ))
+    const deleteItemHandler = (event) => {
+        axios.get(deleteByIdUrl, {
+            params: {
+                id: event.target.value
+            }
+        }).then(response => {
+            console.log(response)
+        })
+        updateEvent()
+    }
+
 
     return (
         <div className="p-grid p-dir-col">
@@ -55,7 +63,13 @@ export const WorkPage = () => {
                                 Today {items.length}
                                 <ScrollPanel style={{width: '100%', height: '350px'}}>
                                     <ul>
-                                        {itemList}
+                                        {items.map(((item, index, array) =>
+                                                <li key={index}>{index + " " + item.content}
+                                                    <button value={item.id}
+                                                            onClick={e => deleteItemHandler(e)}>X
+                                                    </button>
+                                                </li>
+                                        ))}
                                     </ul>
                                 </ScrollPanel>
                             </div>
