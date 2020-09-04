@@ -13,7 +13,6 @@ export const WorkPage = () => {
     const [items, setItems] = useState([])
 
     const submit = () => {
-        console.log(items)
         axios.post(insertUrl, {
             content: value,
             createTime: Date.now()
@@ -29,7 +28,7 @@ export const WorkPage = () => {
     useEffect(() => {
         axios.get(findAllUrl)
             .then(response => {
-                setItems(items)
+                setItems(items => [...items, response.data])
             })
             .catch(error => {
                 console.log(error)
