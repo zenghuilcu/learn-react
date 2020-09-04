@@ -6,11 +6,13 @@ import axios from "axios"
 
 const insertUrl = "http://localhost:8282/item/insertOne";
 const findAllUrl = "http://localhost:8282/item/findAll";
+let i = 0
 
 
 export const WorkPage = () => {
     const [value, setValue] = useState("")
     const [items, setItems] = useState([])
+    const [update, setUpdate] = useState(0)
 
     const submit = () => {
         axios.post(insertUrl, {
@@ -24,25 +26,19 @@ export const WorkPage = () => {
                 console.log(error)
             })
         setValue("")
-    }
-
-    async function getData() {
-        const data = await axios.get(findAllUrl)
-            .then(response => {
-                return response.data
-            })
-            .catch(e => {
-                console.error(e)
-            })
-        return data
+        setUpdate(prevState => prevState + 1)
     }
 
     useEffect(() => {
-        (async () => {
-            const result = await axios.get(findAllUrl)
-            await setItems(result.data)
-        })()
-    }, [])
+        axios.get(findAllUrl).then(response => {
+            setItems(response.data)
+        })
+        console.log("HELLO")
+    }, [update])
+
+    useEffect(() => {
+        console.log("update !!!!")
+    }, [update])
 
     return (
         <div className="p-grid p-dir-col">
