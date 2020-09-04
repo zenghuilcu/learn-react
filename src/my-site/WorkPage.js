@@ -20,24 +20,21 @@ export const WorkPage = () => {
         })
             .then(function (response) {
                 console.log(response.status)
+                updateEvent()
             })
             .catch(function (error) {
                 console.log(error)
             })
         setValue("")
-        updateEvent()
     }
 
     const updateEvent = () => {
-        console.log(update)
         setUpdate(!update)
     }
 
     useEffect(() => {
-        axios.get(findAllUrl).then(({data}) => {
-            setItems(() => {
-                return data
-            })
+        axios.get(findAllUrl).then(response => {
+            setItems(response.data)
         })
     }, [update])
 
@@ -47,9 +44,9 @@ export const WorkPage = () => {
                 id: event.target.value
             }
         }).then(response => {
-            console.log(response)
-        })
-        updateEvent()
+            console.log(response.status)
+            updateEvent()
+        }).catch(error => console.log(error))
     }
 
 
@@ -63,13 +60,7 @@ export const WorkPage = () => {
                                 Today {items.length}
                                 <ScrollPanel style={{width: '100%', height: '350px'}}>
                                     <ul>
-                                        {items.map(((item, index, array) =>
-                                                <li key={index}>{index + " " + item.content}
-                                                    <button value={item.id}
-                                                            onClick={e => deleteItemHandler(e)}>X
-                                                    </button>
-                                                </li>
-                                        ))}
+                                        <ItemList items={items} deleteItemHandler={deleteItemHandler}/>
                                     </ul>
                                 </ScrollPanel>
                             </div>
@@ -103,4 +94,17 @@ export const WorkPage = () => {
             </div>
         </div>
     )
+}
+
+const ItemList = (props) => {
+    console.log(props.items)
+    return props.items.map(((item, index, array) =>
+            <li key={index}>{index + " " + item.content}
+                <button value={item.id}
+                        onClick={e => {
+                            props.deleteItemHandler(e)
+                        }}>X
+                </button>
+            </li>
+    ))
 }
