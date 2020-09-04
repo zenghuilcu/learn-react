@@ -23,17 +23,26 @@ export const WorkPage = () => {
             .catch(function (error) {
                 console.log(error)
             })
+        setValue("")
+    }
+
+    async function getData() {
+        const data = await axios.get(findAllUrl)
+            .then(response => {
+                return response.data
+            })
+            .catch(e => {
+                console.error(e)
+            })
+        return data
     }
 
     useEffect(() => {
-        axios.get(findAllUrl)
-            .then(response => {
-                setItems(items => [...items, response.data])
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    },[])
+        (async () => {
+            const result = await axios.get(findAllUrl)
+            await setItems(result.data)
+        })()
+    }, [])
 
     return (
         <div className="p-grid p-dir-col">
