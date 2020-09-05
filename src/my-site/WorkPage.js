@@ -4,6 +4,7 @@ import {Button} from "primereact/button";
 import {Divider} from "@blueprintjs/core";
 import axios from "axios"
 import {ScrollPanel} from "primereact/scrollpanel";
+import {Confirm} from "semantic-ui-react";
 
 const insertUrl = "http://localhost:8282/item/insertOne";
 const findAllUrl = "http://localhost:8282/item/findAll";
@@ -12,6 +13,7 @@ export const WorkPage = () => {
     const [value, setValue] = useState("")
     const [items, setItems] = useState([])
     const [update, setUpdate] = useState(false)
+    const [show, setShow] = useState(false)
 
     const submit = () => {
         axios.post(insertUrl, {
@@ -39,6 +41,7 @@ export const WorkPage = () => {
     }, [update])
 
     const deleteItemHandler = (event) => {
+        setShow(true)
         axios.get(deleteByIdUrl, {
             params: {
                 id: event.target.value
@@ -47,6 +50,13 @@ export const WorkPage = () => {
             console.log(response.status)
             updateEvent()
         }).catch(error => console.log(error))
+    }
+
+    const onConfirm = () => {
+        return true
+    }
+    const onCancel = () => {
+        setShow(false)
     }
 
 
@@ -92,6 +102,11 @@ export const WorkPage = () => {
             <div className="p-col-1">
                 <Button label={"Submit"} onClick={submit}/>
             </div>
+            <Confirm header={"删除"}
+                     open={show}
+                     onCancel={onCancel}
+                     onConfirm={onConfirm}
+            />
         </div>
     )
 }
