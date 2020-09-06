@@ -5,15 +5,20 @@ import {Divider} from "@blueprintjs/core";
 import axios from "axios"
 import {ScrollPanel} from "primereact/scrollpanel";
 import {Confirm} from "semantic-ui-react";
+import {Message} from "primereact/message";
+import {Messages} from "primereact/messages";
+import {Growl} from "primereact/growl";
 
-const insertUrl = "http://localhost:8282/item/insertOne";
-const findAllUrl = "http://localhost:8282/item/findAll";
-const deleteByIdUrl = "http://localhost:8282/item/deleteById"
+const insertUrl = "http://localhost:1111/item/insertOne";
+const findAllUrl = "http://localhost:1111/item/findAll";
+const deleteByIdUrl = "http://localhost:1111/item/deleteById"
 export const WorkPage = () => {
     const [value, setValue] = useState("")
     const [items, setItems] = useState([])
     const [update, setUpdate] = useState(false)
     const [show, setShow] = useState(false)
+    const [deleteId, setDeleteId] = useState("")
+    let growl
 
     const submit = () => {
         axios.post(insertUrl, {
@@ -23,11 +28,11 @@ export const WorkPage = () => {
             .then(function (response) {
                 console.log(response.status)
                 updateEvent()
+                setValue("")
             })
             .catch(function (error) {
                 console.log(error)
             })
-        setValue("")
     }
 
     const updateEvent = () => {
@@ -41,24 +46,30 @@ export const WorkPage = () => {
     }, [update])
 
     const deleteItemHandler = (event) => {
+        setDeleteId(event.target.value)
         setShow(true)
-        axios.get(deleteByIdUrl, {
-            params: {
-                id: event.target.value
-            }
-        }).then(response => {
-            console.log(response.status)
-            updateEvent()
-        }).catch(error => console.log(error))
     }
 
     const onConfirm = () => {
-        return true
+        axios.get(deleteByIdUrl, {
+            params: {
+                id: deleteId
+            }
+        }).then(response => {
+            console.log(response.status)
+            setDeleteId("")
+            setShow(false)
+            console.log(show)
+            updateEvent()
+        }).catch(error => console.log(error))
     }
     const onCancel = () => {
         setShow(false)
     }
 
+    const showSuccess = () => {
+        growl.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
+    }
 
     return (
         <div className="p-grid p-dir-col">
@@ -99,20 +110,20 @@ export const WorkPage = () => {
                     setValue(e.target.value)
                 }}
             />
+            <Button onClick={showSuccess} value={"123"}/>
             <div className="p-col-1">
                 <Button label={"Submit"} onClick={submit}/>
             </div>
-            <Confirm header={"删除"}
-                     open={show}
+            <Confirm open={show}
                      onCancel={onCancel}
                      onConfirm={onConfirm}
             />
+            <Growl ref={(el) => growl = el}/>
         </div>
     )
 }
 
 const ItemList = (props) => {
-    console.log(props.items)
     return props.items.map(((item, index, array) =>
             <li key={index}>{index + " " + item.content}
                 <button value={item.id}
