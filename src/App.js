@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import classNames from "classnames"
 import {Route} from "react-router-dom"
-import './App.scss';
 import 'primereact/resources/themes/nova-dark/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
+import './App.scss';
+import './layout/layout.scss'
 import 'semantic-ui-css/semantic.min.css'
 import 'medium-draft/lib/index.css'
-import './layout/layout.scss'
 import './my-site/MySite.css'
 import ColorfulEditorExample from "./editor/example/Color";
 import {ShowEditor} from "./editor/EditorGroup";
