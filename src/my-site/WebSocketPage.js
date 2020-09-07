@@ -4,27 +4,47 @@ import SockJS from "sockjs-client"
 import Stomp from "stompjs"
 
 
-const WEB_SOCKET_URL = " http://localhost:1111/gs-guide-websocket/"
+const WEB_SOCKET_URL = " http://localhost:1111/chat"
 
 export const WebSocketPage = () => {
     const [log, setLog] = useState([])
+    let stompClient
 
-    const connection = () => {
+    const connect = () => {
         let socket = new SockJS(WEB_SOCKET_URL)
-        let stompClient = Stomp.over(socket)
+        stompClient = Stomp.over(socket)
         stompClient.connect({}, function (frame) {
-            setLog([...log, "Connected!"])
+            setLog([...log, "status: " + frame])
             stompClient.subscribe("/topic/greetings", function (greeting) {
-                setLog([...log, JSON.parse(greeting.body).content])
-                console.log(log.length)
+                console.log("Greeting")
+                showGreeting(JSON.parse(greeting.body).content)
             })
+            sendMessage()
         })
+    }
+
+    const disconnect = () => {
+        if (stompClient !== null) {
+            stompClient.disconnect()
+        }
+        console.log("status: Disconnected!")
+    }
+
+    const sendMessage = () => {
+        if (stompClient !== null) {
+            stompClient.send("/app/hello", {}, JSON.stringify({"name": "Hello World!"}))
+        }
+    }
+
+    const showGreeting = (message) => {
+        setLog([...log, message])
     }
 
     return (
         <div className="p-grid">
             <div className="p-col-5">
-                <Button value="connection" onClick={connection} label="Connect"/>
+                <Button value="connection" onClick={connect} label="Connect"/>
+                <Button label="Send Message" onClick={sendMessage}/>
             </div>
             <div className="p-col-5">
                 <div>
@@ -41,7 +61,4 @@ export const WebSocketPage = () => {
             </div>
         </div>
     );
-}
-
-const PrintLog = (props) => {
 }
