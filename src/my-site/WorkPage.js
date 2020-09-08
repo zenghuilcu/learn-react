@@ -8,6 +8,7 @@ import {Confirm} from "semantic-ui-react";
 import {Message} from "primereact/message";
 import {Messages} from "primereact/messages";
 import {Growl} from "primereact/growl";
+import {Card} from "primereact/card";
 
 const insertUrl = "http://localhost:1111/item/insertOne";
 const findAllUrl = "http://localhost:1111/item/findAll";
@@ -68,7 +69,7 @@ export const WorkPage = () => {
     }
 
     const showSuccess = () => {
-        growl.show({severity:'success', summary: 'Success Message', detail:'Message Content', life: 3000});
+        growl.show({severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000});
     }
 
     return (
@@ -80,9 +81,7 @@ export const WorkPage = () => {
                             <div className="p-col">
                                 Today {items.length}
                                 <ScrollPanel style={{width: '100%', height: '350px'}}>
-                                    <ul>
-                                        <ItemList items={items} deleteItemHandler={deleteItemHandler}/>
-                                    </ul>
+                                    <ItemList items={items} deleteItemHandler={deleteItemHandler}/>
                                 </ScrollPanel>
                             </div>
                         </div>
@@ -125,12 +124,17 @@ export const WorkPage = () => {
 
 const ItemList = (props) => {
     return props.items.map(((item, index, array) =>
-            <li key={index}>{index + " " + item.content}
+            <Card key={index}>{item.content}
+                <Button label="Click" icon="pi pi-check" />
+                <Button label="Primary" className="p-button-text" />
+                <Button icon="pi pi-check" className="p-button-rounded p-button-text"/>
+                <Button icon="pi pi-check" className="p-button-rounded p-button-outlined" />
+                <Button icon="pi pi-search" className="p-button-rounded p-button-success" />
                 <button value={item.id}
                         onClick={e => {
                             props.deleteItemHandler(e)
                         }}>X
                 </button>
-            </li>
+            </Card>
     ))
 }
