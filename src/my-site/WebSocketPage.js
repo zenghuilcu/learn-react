@@ -1,15 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Button} from "primereact/button";
 import SockJS from "sockjs-client"
 import Stomp from "stompjs"
-
 
 const WEB_SOCKET_URL = " http://localhost:1111/chat"
 
 export const WebSocketPage = () => {
     const [log, setLog] = useState([])
     const [stompClient, setStompClient] = useState(null)
-
 
     const connect = () => {
         const socket = new SockJS(WEB_SOCKET_URL)
@@ -18,7 +16,8 @@ export const WebSocketPage = () => {
             setStompClient(stompClient)
             addLog(frame)
             stompClient.subscribe("/topic/greeting", function (greeting) {
-                addLog(JSON.parse(greeting.body).content)
+                console.log("Greeting" + greeting.body)
+                addLog(greeting.body)
             })
         })
     }
@@ -39,13 +38,11 @@ export const WebSocketPage = () => {
 
     const addLog = (message) => {
         setLog(prevState => {
-            let current = prevState;
-            console.log(current)
+            let current = prevState.concat();
             current.push(message.toString())
             return current
         })
     }
-
 
     return (
         <div className="p-grid">
@@ -61,9 +58,9 @@ export const WebSocketPage = () => {
                     }}/>
                     Event Log <span className="menuitem-badge">{log.length}</span>
                 </div>
-                <div>
+                <div className="p-shadow-3">
                     <pre>
-                        {log.map((value, index) => <div key={index}>{value}</div>)}
+                        {log.map((value, index) => <li key={index}>{value}</li>)}
                     </pre>
                 </div>
             </div>
