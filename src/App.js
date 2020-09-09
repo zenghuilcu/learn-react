@@ -1,6 +1,4 @@
-import React, {Component} from 'react';
-import classNames from "classnames"
-import {Route} from "react-router-dom"
+import React, {Component, useState} from 'react';
 import 'primereact/resources/themes/nova-dark/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
@@ -10,163 +8,132 @@ import './layout/layout.scss'
 import 'semantic-ui-css/semantic.min.css'
 import 'medium-draft/lib/index.css'
 import './my-site/MySite.css'
-import ColorfulEditorExample from "./editor/example/Color";
-import {ShowEditor} from "./editor/EditorGroup";
-import {MyExampleEditor} from "./editor/MyEditor";
-import {AppFooter} from "./AppFooter";
-import {AppTopbar} from "./AppTopbar";
-import {AppProfile} from "./AppProfile";
-import {AppMenu} from "./AppMenu";
-import {EmptyPage} from "./my-site/EmptyPage";
-import {DashBoard} from "./my-site/DashBoard";
-import {WebSocketPage} from "./my-site/WebSocketPage";
-import {WorkPage} from "./my-site/WorkPage";
+import {
+    Container,
+    Divider,
+    Dropdown,
+    Grid,
+    Header,
+    Icon,
+    Image,
+    List,
+    Menu,
+    Segment,
+    Visibility,
+    Sidebar, Checkbox,
+} from 'semantic-ui-react'
 
-class App extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            layoutMode: 'static',
-            layoutColorMode: 'dark',
-            staticMenuInactive: false,
-            overlayMenuActive: false,
-            mobileMenuActive: false
-        };
+const fixedMenuStyle = {
+    backgroundColor: '#fff',
+    border: '1px solid #ddd',
+    boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
+    width: "100%",
+}
 
-        this.onWrapperClick = this.onWrapperClick.bind(this);
-        this.onToggleMenu = this.onToggleMenu.bind(this);
-        this.onSidebarClick = this.onSidebarClick.bind(this);
-        this.onMenuItemClick = this.onMenuItemClick.bind(this);
-        this.createMenu();
-    }
+export const App = () => {
+    const [visible, setVisible] = useState(false)
+    return (
+        <div>
+            <Sidebar.Pushable as={Segment}>
+                <Sidebar
+                    as={Menu}
+                    animation='overlay'
+                    icon='labeled'
+                    inverted
+                    vertical
+                    visible
+                    width='thin'
+                >
+                    <Menu.Item as='a'>
+                        <Icon name='home'/>
+                        Home
+                    </Menu.Item>
+                </Sidebar>
 
-    onWrapperClick(event) {
-        if (!this.menuClick) {
-            this.setState({
-                overlayMenuActive: false,
-                mobileMenuActive: false
-            });
-        }
+                <Sidebar.Pusher>
+                    <Visibility once={false}>
+                        <Grid>
+                            <Grid.Row>
+                                <Menu borderless style={fixedMenuStyle}>
+                                    <Container>
+                                        <Menu.Item>
+                                            <Image size='mini' src='/logo192.png'/>
+                                        </Menu.Item>
+                                        <Menu.Item header>Project Name</Menu.Item>
+                                        <Menu.Item as='a'>Blog</Menu.Item>
+                                        <Menu.Item as='a'>Articles</Menu.Item>
 
-        this.menuClick = false;
-    }
+                                        <Menu.Menu position='right'>
+                                            <Dropdown text='Dropdown' pointing className='link item'>
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item>List Item</Dropdown.Item>
+                                                    <Dropdown.Item>List Item</Dropdown.Item>
+                                                    <Dropdown.Divider/>
+                                                    <Dropdown.Header>Header Item</Dropdown.Header>
+                                                    <Dropdown.Item>
+                                                        <i className='dropdown icon'/>
+                                                        <span className='text'>Submenu</span>
+                                                        <Dropdown.Menu>
+                                                            <Dropdown.Item>List Item</Dropdown.Item>
+                                                            <Dropdown.Item>List Item</Dropdown.Item>
+                                                        </Dropdown.Menu>
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item>List Item</Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </Menu.Menu>
+                                    </Container>
+                                </Menu>
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Checkbox
+                                    toggle
+                                    checked={visible}
+                                    label={{children: <code>visible</code>}}
+                                    onChange={(e, data) => setVisible(data.checked)}
+                                />
+                            </Grid.Row>
+                            <Grid.Row>
+                                <Sidebar.Pushable as={Segment}>
+                                    <Sidebar
+                                        as={Menu}
+                                        animation='overlay'
+                                        icon='labeled'
+                                        inverted
+                                        onHide={() => setVisible(false)}
+                                        vertical
+                                        visible={visible}
+                                        width='thin'
+                                    >
+                                        <Menu.Item as='a'>
+                                            <Icon name='home'/>
+                                            Home
+                                        </Menu.Item>
+                                        <Menu.Item as='a'>
+                                            <Icon name='gamepad'/>
+                                            Games
+                                        </Menu.Item>
+                                        <Menu.Item as='a'>
+                                            <Icon name='camera'/>
+                                            Channels
+                                        </Menu.Item>
+                                    </Sidebar>
 
-    onToggleMenu(event) {
-        this.menuClick = true;
+                                    <Sidebar.Pusher>
+                                        <Segment basic>
+                                            <Header as='h3'>Application Content</Header>
+                                            <Image src='/images/wireframe/paragraph.png'/>
+                                        </Segment>
+                                    </Sidebar.Pusher>
+                                </Sidebar.Pushable>
+                            </Grid.Row>
+                        </Grid>
+                    </Visibility>
+                </Sidebar.Pusher>
+            </Sidebar.Pushable>
 
-        if (this.isDesktop()) {
-            if (this.state.layoutMode === 'overlay') {
-                this.setState({
-                    overlayMenuActive: !this.state.overlayMenuActive
-                });
-            } else if (this.state.layoutMode === 'static') {
-                this.setState({
-                    staticMenuInactive: !this.state.staticMenuInactive
-                });
-            }
-        } else {
-            const mobileMenuActive = this.state.mobileMenuActive;
-            this.setState({
-                mobileMenuActive: !mobileMenuActive
-            });
-        }
-
-        event.preventDefault();
-    }
-
-    onSidebarClick(event) {
-        this.menuClick = true;
-    }
-
-    onMenuItemClick(event) {
-        if (!event.item.items) {
-            this.setState({
-                overlayMenuActive: false,
-                mobileMenuActive: false
-            })
-        }
-    }
-
-    createMenu() {
-        this.menu = [
-            {
-                label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => {
-                    window.location = '#/'
-                }
-            },
-            {
-                label: 'TestPage', icon: 'pi pi-fw pi-file', to: "/TestPage"
-            },
-            {
-                label: 'WebSocket', icon: 'pi pi-fw pi-share-alt', to: "/WebSocket"
-            },
-            {
-                label: "WorkPage", icon: 'pi pi-fw pi-briefcase', to: "/WorkPage"
-            }
-        ];
-    }
-
-    addClass(element, className) {
-        if (element.classList)
-            element.classList.add(className);
-        else
-            element.className += ' ' + className;
-    }
-
-    removeClass(element, className) {
-        if (element.classList)
-            element.classList.remove(className);
-        else
-            element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-    }
-
-    isDesktop() {
-        return window.innerWidth > 1024;
-    }
-
-    componentDidUpdate() {
-        if (this.state.mobileMenuActive)
-            this.addClass(document.body, 'body-overflow-hidden');
-        else
-            this.removeClass(document.body, 'body-overflow-hidden');
-    }
-
-    render() {
-        const logo = this.state.layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
-
-        const wrapperClass = classNames('layout-wrapper', {
-            'layout-overlay': this.state.layoutMode === 'overlay',
-            'layout-static': this.state.layoutMode === 'static',
-            'layout-static-sidebar-inactive': this.state.staticMenuInactive && this.state.layoutMode === 'static',
-            'layout-overlay-sidebar-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
-            'layout-mobile-sidebar-active': this.state.mobileMenuActive
-        });
-
-        return (
-            <div className={wrapperClass} onClick={this.onWrapperClick}>
-                <AppTopbar onToggleMenu={this.onToggleMenu}/>
-
-                <div ref={(el) => this.sidebar = el} className="layout-sidebar layout-sidebar-dark"
-                     onClick={this.onSidebarClick}>
-                    <div className="layout-logo">
-                        <img alt="Logo" src={logo}/>
-                    </div>
-                    <AppProfile/>
-                    <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick}/>
-                </div>
-
-                <div className="layout-main">
-                    <Route path="/" exact component={DashBoard}/>
-                    <Route path="/TestPage" exact component={EmptyPage}/>
-                    <Route path="/WebSocket" exact component={WebSocketPage}/>
-                    <Route path="/WorkPage" exact component={WorkPage}/>
-                </div>
-
-                <AppFooter/>
-                <div className="layout-mask"/>
-            </div>
-        );
-    }
+        </div>
+    )
 }
 
 export default App;
