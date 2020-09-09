@@ -47,7 +47,7 @@ export const WorkPage = () => {
     }, [update])
 
     const deleteItemHandler = (event) => {
-        setDeleteId(event.target.value)
+        setDeleteId(event.target.parentNode.value)
         setShow(true)
     }
 
@@ -109,8 +109,8 @@ export const WorkPage = () => {
                     setValue(e.target.value)
                 }}
             />
-            <Button onClick={showSuccess} value={"123"}/>
             <div className="p-col-1">
+                <Button onClick={showSuccess} value={"123"}/>
                 <Button label={"Submit"} onClick={submit}/>
             </div>
             <Confirm open={show}
@@ -125,16 +125,12 @@ export const WorkPage = () => {
 const ItemList = (props) => {
     return props.items.map(((item, index, array) =>
             <Card key={index}>{item.content}
-                <Button label="Click" icon="pi pi-check" />
-                <Button label="Primary" className="p-button-text" />
-                <Button icon="pi pi-check" className="p-button-rounded p-button-text"/>
-                <Button icon="pi pi-check" className="p-button-rounded p-button-outlined" />
-                <Button icon="pi pi-search" className="p-button-rounded p-button-success" />
-                <button value={item.id}
+                <Button icon="pi pi-times" className="p-button-rounded p-button-text p-float" value={item.id}
                         onClick={e => {
                             props.deleteItemHandler(e)
-                        }}>X
-                </button>
+                        }}
+                />
+                <Button icon="pi pi-check" className="p-button-rounded p-button-text p-float"/>
             </Card>
     ))
 }

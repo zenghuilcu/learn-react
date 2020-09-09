@@ -1,4 +1,6 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
+import classNames from "classnames"
+import {Link, Redirect, Route} from "react-router-dom"
 import 'primereact/resources/themes/nova-dark/theme.css'
 import 'primereact/resources/primereact.min.css'
 import 'primeicons/primeicons.css'
@@ -8,216 +10,163 @@ import './layout/layout.scss'
 import 'semantic-ui-css/semantic.min.css'
 import 'medium-draft/lib/index.css'
 import './my-site/MySite.css'
-import {Menu} from "semantic-ui-react";
+import ColorfulEditorExample from "./editor/example/Color";
+import {ShowEditor} from "./editor/EditorGroup";
+import {MyExampleEditor} from "./editor/MyEditor";
+import {AppFooter} from "./AppFooter";
+import {AppTopbar} from "./AppTopbar";
+import {AppProfile} from "./AppProfile";
+import {AppMenu} from "./AppMenu";
+import {EmptyPage} from "./my-site/EmptyPage";
+import {DashBoard} from "./my-site/DashBoard";
+import {WebSocketPage} from "./my-site/WebSocketPage";
+import {WorkPage} from "./my-site/WorkPage";
+import {ExamplePage} from "./my-site/ExamplePage";
 
-export class App extends Component {
+class App extends Component {
     constructor(props) {
-        super(props);
-
+        super(props)
         this.state = {
-            leftOpen: true,
+            layoutMode: 'static',
+            layoutColorMode: 'dark',
+            staticMenuInactive: false,
+            overlayMenuActive: false,
+            mobileMenuActive: false
+        };
+
+        this.onWrapperClick = this.onWrapperClick.bind(this);
+        this.onToggleMenu = this.onToggleMenu.bind(this);
+        this.onSidebarClick = this.onSidebarClick.bind(this);
+        this.onMenuItemClick = this.onMenuItemClick.bind(this);
+        this.createMenu();
+    }
+
+    onWrapperClick(event) {
+        if (!this.menuClick) {
+            this.setState({
+                overlayMenuActive: false,
+                mobileMenuActive: false
+            });
+        }
+
+        this.menuClick = false;
+    }
+
+    onToggleMenu(event) {
+        this.menuClick = true;
+
+        if (this.isDesktop()) {
+            if (this.state.layoutMode === 'overlay') {
+                this.setState({
+                    overlayMenuActive: !this.state.overlayMenuActive
+                });
+            } else if (this.state.layoutMode === 'static') {
+                this.setState({
+                    staticMenuInactive: !this.state.staticMenuInactive
+                });
+            }
+        } else {
+            const mobileMenuActive = this.state.mobileMenuActive;
+            this.setState({
+                mobileMenuActive: !mobileMenuActive
+            });
+        }
+
+        event.preventDefault();
+    }
+
+    onSidebarClick(event) {
+        this.menuClick = true;
+    }
+
+    onMenuItemClick(event) {
+        if (!event.item.items) {
+            this.setState({
+                overlayMenuActive: false,
+                mobileMenuActive: false
+            })
         }
     }
 
-    toggleSidebar = () => {
-        this.setState({
-            leftOpen: !this.state.leftOpen
-        })
+    createMenu() {
+        this.menu = [
+            {
+                label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => {
+                    window.location = '#/'
+                }
+            },
+            {
+                label: 'TestPage', icon: 'pi pi-fw pi-file', to: "/TestPage"
+            },
+            {
+                label: 'WebSocket', icon: 'pi pi-fw pi-share-alt', to: "/WebSocket"
+            },
+            {
+                label: "WorkPage", icon: 'pi pi-fw pi-briefcase', to: "/WorkPage"
+            }
+        ];
+    }
+
+    addClass(element, className) {
+        if (element.classList)
+            element.classList.add(className);
+        else
+            element.className += ' ' + className;
+    }
+
+    removeClass(element, className) {
+        if (element.classList)
+            element.classList.remove(className);
+        else
+            element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+    }
+
+    isDesktop() {
+        return window.innerWidth > 1024;
+    }
+
+    componentDidUpdate() {
+        if (this.state.mobileMenuActive)
+            this.addClass(document.body, 'body-overflow-hidden');
+        else
+            this.removeClass(document.body, 'body-overflow-hidden');
     }
 
     render() {
-        let leftOpen = this.state.leftOpen ? 'open' : 'closed';
+        const logo = this.state.layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
+
+        const wrapperClass = classNames('layout-wrapper', {
+            'layout-overlay': this.state.layoutMode === 'overlay',
+            'layout-static': this.state.layoutMode === 'static',
+            'layout-static-sidebar-inactive': this.state.staticMenuInactive && this.state.layoutMode === 'static',
+            'layout-overlay-sidebar-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
+            'layout-mobile-sidebar-active': this.state.mobileMenuActive
+        });
+
         return (
-            <div id='layout'>
-                <div id='left' className={leftOpen}>
-                    <div className={`sidebar ${leftOpen}`}>
-                        <div className='content'>
-                            <h3>Left content</h3>
-                            <p>
-                            </p>
-                        </div>
+            <div className={wrapperClass} onClick={this.onWrapperClick}>
+                <AppTopbar onToggleMenu={this.onToggleMenu}/>
+
+                <div ref={(el) => this.sidebar = el} className="layout-sidebar layout-sidebar-dark"
+                     onClick={this.onSidebarClick}>
+                    <div className="layout-logo">
+                        <img alt="Logo" src={logo}/>
                     </div>
+                    <AppProfile/>
+                    <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick}/>
                 </div>
 
-                <div id='main'>
-                    <Menu>
-                        <Menu.Item
-                            name='editorials'
-                            onClick={this.toggleSidebar}
-                        >
-                            Editorials
-                        </Menu.Item>
-
-                        <Menu.Item
-                            name='reviews'
-                        >
-                            Reviews
-                        </Menu.Item>
-
-                        <Menu.Item
-                            name='upcomingEvents'
-                        >
-                            Upcoming Events
-                        </Menu.Item>
-                    </Menu>
-                    <div className='content'>
-                        <h3>Main content</h3><br/>
-                        <p>
-                            Nam accumsan eleifend metus at imperdiet. Mauris pellentesque ipsum nisi, et fringilla leo
-                            blandit sed. In tempor, leo sit amet fringilla imperdiet, ipsum enim sagittis sem, non
-                            molestie nisi purus consequat sapien. Proin at velit id elit tincidunt iaculis ac ac libero.
-                            Vivamus vitae tincidunt ex. Duis sit amet lacinia massa. Quisque lobortis tincidunt metus ut
-                            commodo. Sed euismod quam gravida condimentum commodo.
-                        </p><br/>
-                        <p>
-                            Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                            ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                            Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                            diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                            eleifend quam eget dictum.
-                        </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>                        <p>
-                        Vivamus tincidunt risus ut sapien tincidunt, ac fermentum libero dapibus. Duis accumsan enim
-                        ac magna tempor, vestibulum euismod nisl pharetra. Ut dictum lacus eu venenatis vestibulum.
-                        Vestibulum euismod at arcu ac blandit. Curabitur eu imperdiet magna. Duis bibendum efficitur
-                        diam, eget placerat nunc imperdiet eget. Morbi porta at leo sed porta. Nullam eleifend
-                        eleifend quam eget dictum.
-                    </p><br/>
-                        <p>
-                            Sed nulla erat, lacinia sit amet dui at, cursus blandit neque. In ultricies, dui a laoreet
-                            dignissim, risus mi cursus risus, at luctus sem arcu non tortor. In hac habitasse platea
-                            dictumst. Etiam ut vulputate augue. Aenean efficitur commodo ipsum, in aliquet arcu blandit
-                            non. Praesent sed tempus dui, non eleifend nisi. Proin non finibus diam, quis finibus ante.
-                            Fusce aliquam faucibus mauris, id consequat velit ultricies at. Aliquam neque erat,
-                            fermentum non aliquam id, mattis nec justo. Nullam eget suscipit lectus.
-                        </p>
-                    </div>
+                <div className="layout-main">
+                    <Route path="/" exact component={DashBoard}/>
+                    <Route path="/TestPage" exact component={EmptyPage}/>
+                    <Route path="/WebSocket" exact component={WebSocketPage}/>
+                    <Route path="/WorkPage" exact component={WorkPage}/>
+                    <Route path="/example" exact component={ExamplePage}/>
+                    <Link to="/example"/>
                 </div>
+
+                <AppFooter/>
+                <div className="layout-mask"/>
             </div>
         );
     }
