@@ -15,8 +15,7 @@ export const WebSocketPage = () => {
         stompClient.connect({}, function (frame) {
             setStompClient(stompClient)
             addLog(frame)
-            stompClient.subscribe("/topic/greeting", function (greeting) {
-                console.log("Greeting" + greeting.body)
+            stompClient.subscribe("/topic/readFile", function (greeting) {
                 addLog(greeting.body)
             })
         })
