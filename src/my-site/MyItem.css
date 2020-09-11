@@ -30,3 +30,8 @@
 .icon {
     float: right;
 }
+
+.my-button {
+    border-radius: 1em;
+    outline: none;
+}

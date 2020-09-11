@@ -27,7 +27,7 @@ export const EmptyPage = () => {
                 <div className="content">明月几时有</div>
             </div>
             <div className="line"/>
-
+            <button className="my-button">My Button</button>
         </div>
     )
 }
