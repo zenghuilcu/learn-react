@@ -1,24 +1,31 @@
 import React from "react";
-import {Button} from "primereact/button";
 import "./ButtonDemo.scss"
-import {Card} from "primereact/card";
+import "./MyItem.css"
+import {Button, Icon} from "semantic-ui-react";
 
 export const EmptyPage = () => {
     return (
         <div>
-            <div className="button-demo">
-                <div className="card">
-                    <h5>Text Buttons</h5>
-                    <Button label="Primary" className="p-button-text"/>
-
-                    <h5>Rounded Text Icon Buttons</h5>
-                    <Button icon="pi pi-check p-box-size" className="p-button-rounded p-button-text p-button-icon-only p-box-size"/>
-
-                    <h5>Rounded and Outlined Icon Buttons</h5>
-                    <Button icon="pi pi-check" className="p-button-rounded p-button-outlined"/>
-
+            <div className="line"/>
+            <div className="my-item">
+                <div className="content">明月几时有
+                    <Icon link name="world" className="icon"/>
                 </div>
             </div>
+            <div className="line"/>
+            <div className="my-item">
+                <div className="content">明月几时有</div>
+            </div>
+            <div className="line"/>
+            <div className="my-item">
+                <div className="content">明月几时有</div>
+            </div>
+            <div className="line"/>
+            <div className="my-item">
+                <div className="content">明月几时有</div>
+            </div>
+            <div className="line"/>
+
         </div>
     )
 }

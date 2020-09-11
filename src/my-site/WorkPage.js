@@ -5,10 +5,9 @@ import {Divider} from "@blueprintjs/core";
 import axios from "axios"
 import {ScrollPanel} from "primereact/scrollpanel";
 import {Confirm} from "semantic-ui-react";
-import {Message} from "primereact/message";
-import {Messages} from "primereact/messages";
-import {Growl} from "primereact/growl";
 import {Card} from "primereact/card";
+import "./MyItem.css"
+import {useToast} from "@chakra-ui/core";
 
 const insertUrl = "http://localhost:1111/item/insertOne";
 const findAllUrl = "http://localhost:1111/item/findAll";
@@ -19,7 +18,7 @@ export const WorkPage = () => {
     const [update, setUpdate] = useState(false)
     const [show, setShow] = useState(false)
     const [deleteId, setDeleteId] = useState("")
-    let growl
+    const toast = useToast()
 
     const submit = () => {
         axios.post(insertUrl, {
@@ -68,10 +67,6 @@ export const WorkPage = () => {
         setShow(false)
     }
 
-    const showSuccess = () => {
-        growl.show({severity: 'success', summary: 'Success Message', detail: 'Message Content', life: 3000});
-    }
-
     return (
         <div className="p-grid p-dir-col">
             <div className="p-col">
@@ -110,27 +105,26 @@ export const WorkPage = () => {
                 }}
             />
             <div className="p-col-1">
-                <Button onClick={showSuccess} value={"123"}/>
                 <Button label={"Submit"} onClick={submit}/>
             </div>
             <Confirm open={show}
                      onCancel={onCancel}
                      onConfirm={onConfirm}
             />
-            <Growl ref={(el) => growl = el}/>
         </div>
     )
 }
 
 const ItemList = (props) => {
     return props.items.map(((item, index, array) =>
-            <Card key={index}>{item.content}
+            <div key={index} className="my-item">
+                <div className="content">{item.content}</div>
                 <Button icon="pi pi-times" className="p-button-rounded p-button-text p-float" value={item.id}
                         onClick={e => {
                             props.deleteItemHandler(e)
                         }}
                 />
                 <Button icon="pi pi-check" className="p-button-rounded p-button-text p-float"/>
-            </Card>
+            </div>
     ))
 }

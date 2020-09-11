@@ -1,0 +1,30 @@
+
+.my-item {
+    /*border: 1px solid #f5f7fa;*/
+    /*border-radius: 5px;*/
+
+    /*background-color: #f5f7fa;*/
+
+    height: 35px;
+    width: 50%;
+}
+
+.my-item:hover {
+    background-color: #f5f7fa;
+}
+
+.content {
+    font-family: "Microsoft YaHei UI", serif;
+    font-size: 17px;
+    padding-top: 5px;
+    padding-left: 8px;
+}
+
+.line {
+    line-height: 1px;
+    border: solid 1px #f5f7fa;
+}
+
+.icon {
+    float: right;
+}
