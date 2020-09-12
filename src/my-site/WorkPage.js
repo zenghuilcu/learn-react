@@ -6,7 +6,7 @@ import axios from "axios"
 import {ScrollPanel} from "primereact/scrollpanel";
 import {Confirm} from "semantic-ui-react";
 import {Card} from "primereact/card";
-import "./MyItem.css"
+import "./MyItem.scss"
 import {useToast} from "@chakra-ui/core";
 
 const insertUrl = "http://localhost:1111/item/insertOne";

@@ -1,0 +1,48 @@
+
+.my-item {
+  /*border: 1px solid #f5f7fa;*/
+  /*border-radius: 5px;*/
+
+  /*background-color: #f5f7fa;*/
+
+  /*height: 35px;*/
+  width: 50%;
+  height: 2em;
+  display: flex;
+}
+
+.my-item:hover {
+  background-color: #f5f7fa;
+}
+
+.content {
+  font-family: "Microsoft YaHei UI", serif;
+  font-size: 1.22em;
+  padding-top: 0.1em;
+  padding-left: 0.1em;
+  padding-bottom: 0.08em;
+}
+
+.line {
+  line-height: 1px;
+  border: solid 1px #f5f7fa;
+}
+
+.icon {
+  float: right;
+}
+
+.my-button {
+  border-radius: 1em;
+  background-color: inherit;
+  border: none;
+  outline: none;
+}
+
+.my-button:hover {
+}
+
+.my-button:active {
+  border: 2px solid #37bc9b;
+  background-image: linear-gradient(to bottom right, #ccd1d9, #aab2bd);
+}

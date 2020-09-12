@@ -1,7 +1,8 @@
 import React from "react";
 import "./ButtonDemo.scss"
-import "./MyItem.css"
+import "./MyItem.scss"
 import {Button, Icon} from "semantic-ui-react";
+import {BsCheck} from "react-icons/bs"
 
 export const EmptyPage = () => {
     return (
@@ -11,7 +12,9 @@ export const EmptyPage = () => {
                 <div className="content">明月几时有
                 </div>
                 <div>
-                    <Icon link name="world" className="icon"/>
+                    <button className="my-button">
+                        <BsCheck color="red" size="1.5em"/>
+                    </button>
                 </div>
             </div>
             <div className="line"/>
