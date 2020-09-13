@@ -17,7 +17,7 @@ import {AppFooter} from "./AppFooter";
 import {AppTopbar} from "./AppTopbar";
 import {AppProfile} from "./AppProfile";
 import {AppMenu} from "./AppMenu";
-import {EmptyPage} from "./my-site/EmptyPage";
+import {Item} from "./my-site/Item";
 import {DashBoard} from "./my-site/DashBoard";
 import {WebSocketPage} from "./my-site/WebSocketPage";
 import {WorkPage} from "./my-site/WorkPage";
@@ -162,7 +162,7 @@ class App extends Component {
 
                 <div className="layout-main">
                     <Route path="/" exact component={DashBoard}/>
-                    <Route path="/TestPage" exact component={EmptyPage}/>
+                    <Route path="/TestPage" exact component={Item}/>
                     <Route path="/WebSocket" exact component={WebSocketPage}/>
                     <Route path="/WorkPage" exact component={WorkPage}/>
                     <Route path="/example" exact component={ExamplePage}/>

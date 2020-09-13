@@ -8,6 +8,7 @@ import {Confirm} from "semantic-ui-react";
 import {Card} from "primereact/card";
 import "./MyItem.scss"
 import {useToast} from "@chakra-ui/core";
+import {Item} from "./Item";
 
 const insertUrl = "http://localhost:1111/item/insertOne";
 const findAllUrl = "http://localhost:1111/item/findAll";
@@ -116,15 +117,18 @@ export const WorkPage = () => {
 }
 
 const ItemList = (props) => {
-    return props.items.map(((item, index, array) =>
-            <div key={index} className="my-item">
-                <div className="content">{item.content}</div>
-                <Button icon="pi pi-times" className="p-button-rounded p-button-text p-float" value={item.id}
-                        onClick={e => {
-                            props.deleteItemHandler(e)
-                        }}
-                />
-                <Button icon="pi pi-check" className="p-button-rounded p-button-text p-float"/>
-            </div>
+    // return props.items.map(((item, index, array) =>
+    //         <div key={index} className="my-item">
+    //             <div className="content">{item.content}</div>
+    //             <Button icon="pi pi-times" className="p-button-rounded p-button-text p-float" value={item.id}
+    //                     onClick={e => {
+    //                         props.deleteItemHandler(e)
+    //                     }}
+    //             />
+    //             <Button icon="pi pi-check" className="p-button-rounded p-button-text p-float"/>
+    //         </div>
+    // ))
+    return props.items.map(((item, index) =>
+            <Item item={item}/>
     ))
 }

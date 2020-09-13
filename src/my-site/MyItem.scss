@@ -10,9 +10,18 @@ $green-border-color:#a0d468;
   /*background-color: #f5f7fa;*/
 
   /*height: 35px;*/
-  width: 50%;
-  height: 3em;
+  height: 2.5em;
   display: flex;
+}
+
+.my-button {
+  width: 2.0em;
+  height: 2.0em;
+  border-radius: 50%;
+  background-color: inherit;
+  border: none;
+  border: 0.2em #f5f7fa;
+  outline: none;
 }
 
 .my-item:hover {
@@ -22,9 +31,10 @@ $green-border-color:#a0d468;
 .content {
   font-family: "Microsoft YaHei UI", serif;
   font-size: 1.22em;
-  padding-top: 0.1em;
+  padding-top: 0.2em;
   padding-left: 0.1em;
   padding-bottom: 0.08em;
+  width: 85%;
 }
 
 .line {
@@ -32,18 +42,7 @@ $green-border-color:#a0d468;
   border: solid 1px #f5f7fa;
 }
 
-.icon {
-  float: right;
-}
 
-.my-button {
-  width: 2.0em;
-  height: 2.0em;
-  border-radius: 50%;
-  background-color: inherit;
-  border: 0.2em #f5f7fa;
-  outline: none;
-}
 
 .my-button:hover {
   background-color: $hover-color;
