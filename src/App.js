@@ -22,6 +22,7 @@ import {DashBoard} from "./my-site/DashBoard";
 import {WebSocketPage} from "./my-site/WebSocketPage";
 import {WorkPage} from "./my-site/WorkPage";
 import {ExamplePage} from "./my-site/ExamplePage";
+import {ButtonDemo} from "./primefaces/DemoButton";
 
 class App extends Component {
     constructor(props) {
@@ -103,6 +104,9 @@ class App extends Component {
             },
             {
                 label: "WorkPage", icon: 'pi pi-fw pi-briefcase', to: "/WorkPage"
+            },
+            {
+                label: "DemoButton", icon: 'pi pi-fw pi-file', to:"/DemoButton"
             }
         ];
     }
@@ -162,7 +166,7 @@ class App extends Component {
                     <Route path="/WebSocket" exact component={WebSocketPage}/>
                     <Route path="/WorkPage" exact component={WorkPage}/>
                     <Route path="/example" exact component={ExamplePage}/>
-                    <Link to="/example"/>
+                    <Route path="/DemoButton" exact component={ButtonDemo}/>
                 </div>
 
                 <AppFooter/>

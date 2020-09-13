@@ -1,3 +1,7 @@
+$hover-color: #f5f7fa;
+$button-click-color: #e6e9ed;
+$green-border-color:#a0d468;
+
 
 .my-item {
   /*border: 1px solid #f5f7fa;*/
@@ -7,12 +11,12 @@
 
   /*height: 35px;*/
   width: 50%;
-  height: 2em;
+  height: 3em;
   display: flex;
 }
 
 .my-item:hover {
-  background-color: #f5f7fa;
+  background-color: $hover-color;
 }
 
 .content {
@@ -33,16 +37,19 @@
 }
 
 .my-button {
-  border-radius: 1em;
+  width: 2.0em;
+  height: 2.0em;
+  border-radius: 50%;
   background-color: inherit;
-  border: none;
+  border: 0.2em #f5f7fa;
   outline: none;
 }
 
 .my-button:hover {
+  background-color: $hover-color;
 }
 
-.my-button:active {
-  border: 2px solid #37bc9b;
-  background-image: linear-gradient(to bottom right, #ccd1d9, #aab2bd);
+.my-button:active{
+  background-color: $button-click-color;
 }
+

@@ -12,9 +12,7 @@ export const EmptyPage = () => {
                 <div className="content">明月几时有
                 </div>
                 <div>
-                    <button className="my-button">
-                        <BsCheck color="red" size="1.5em"/>
-                    </button>
+                    <Button icon="check" size="mini" color="green"/>
                 </div>
             </div>
             <div className="line"/>
@@ -30,7 +28,10 @@ export const EmptyPage = () => {
                 <div className="content">明月几时有</div>
             </div>
             <div className="line"/>
-            <button className="my-button">My Button</button>
+            <div>
+
+                <button className="my-button ripple">M</button>
+            </div>
         </div>
     )
 }
